@@ -1,4 +1,3 @@
-
 import localFont from 'next/font/local'
 import "./globals.css";
 
@@ -25,8 +24,8 @@ export default function RootLayout({
 
 
   return (
-    <html lang="en">
-      <body className={`${pretendard.variable + ' ' + rix.variable} font-pretendard `}>
+    <html>
+      <body className={`${pretendard.variable} ${rix.variable} font-pretendard`} >  
         {children}
       </body>
     </html>

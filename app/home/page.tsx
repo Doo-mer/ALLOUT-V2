@@ -7,6 +7,7 @@ import Row from '@/shared/layout/Row';
 import Column from '@/shared/layout/Column';
 import Calendar from '@/shared/component/CalendarGrid';
 import Image from 'next/image';
+import Link from 'next/link';
 
 const MedalIcon: React.FC<{ size?: number }> = ({ size = 64 }) => (
   <svg
@@ -73,7 +74,7 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({ days, target }) => {
         />
   
         {/* 카드 본문 */}
-        <Column className="inset-0 bg-neutral-900 p-4 rounded-[1rem] items-center justify-between">
+        <Column className="inset-0 p-4 rounded-[1rem] items-center justify-between">
           <MedalIcon size={48} />
           <span className="text-white font-semibold mt-2">
             {days}일 연속
@@ -103,30 +104,33 @@ export default function HomePage() {
                         <Calendar />
 
                         <div className="mx-auto mb-8">
-                            <button
-                                className="w-28 h-28 bg-purple-600 rounded-full text-white font-medium"
-                            >
-                                <div className="text-[1.5rem]">시작</div>
-                            </button>
+                            <Link href={"write"}>
+                                <div className="flex justify-center items-center w-28 h-28 bg-purple-600 rounded-full text-white font-medium text-[1.25rem] hover:bg-purple-500 duration-200">시작</div>
+                            </Link>
                         </div>
                     </Column>
 
                     {/* 하단 섹션 */}
                     <Column className="bg-neutral-800 w-full h-screen snap-start flex items-center">
                         <Row className="gap-5 p-6">
-                            <button
-                                className="bg-black text-white h-14 w-42 rounded-4xl flex items-center justify-center gap-2"
-                            >
-                                <Image src="./book.svg" alt="고민 기록" width={32} height={32} />
-                                고민 기록
-                            </button>
-
-                            <button
-                                className="bg-black text-white h-14 w-42 rounded-4xl flex items-center justify-center gap-2"
-                            >
-                                <Image src="./document.svg" alt="분석 보고서" width={32} height={32} />
-                                분석 보고서
-                            </button>
+                            <Link href={"/record"}>
+                                <div
+                                    className="bg-black text-white h-14 w-42 rounded-4xl flex items-center justify-center gap-2 hover:bg-neutral-900 duration-200"
+                                >
+                                    <Image src="./book.svg" alt="고민 기록" width={32} height={32} />
+                                    고민 기록
+                                </div>
+                            </Link>
+                            
+                            <Link href={"/document"}>
+                                <div
+                                    className="bg-black text-white h-14 w-42 rounded-4xl flex items-center justify-center gap-2 hover:bg-neutral-900 duration-200"
+                                >
+                                    <Image src="./document.svg" alt="분석 보고서" width={32} height={32} />
+                                    분석 보고서
+                                </div>
+                            </Link>
+                            
                         </Row>
 
                         <Column className="w-[90%] gap-4 bg-black py-[1rem] px-[1rem] rounded-[1rem] mb-[2rem]">
@@ -134,7 +138,7 @@ export default function HomePage() {
                                 <span className='text-[1rem]'>기록 습관 만들기</span>
                                 <span className="text-[1rem] text-right">목표 일주일 &gt;</span>
                             </div>
-                            <div className="flex flex-col items-center justify-center py-6">
+                            <div className="flex flex-col items-center justify-center py-4">
                                 <div className="text-white text-[4rem] font-bold mb-[-1rem]">13</div>
                                 <div className="text-white text-[1rem] mt-1">일 연속</div>
                             </div>

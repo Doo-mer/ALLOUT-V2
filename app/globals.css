@@ -13,3 +13,7 @@ html, body {
 *::-webkit-scrollbar{
   display:none;
 }
+
+* {
+  color: white;
+}
