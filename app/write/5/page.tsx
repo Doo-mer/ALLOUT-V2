@@ -1,12 +1,15 @@
 'use client'
 
 import { useState } from 'react'
+import { useAtom } from 'jotai'
 import Link from 'next/link'
 import App from '@/shared/layout/App'
 import Container from '@/shared/layout/Container'
 import Header from '@/shared/component/Header'
 import Column from '@/shared/layout/Column'
 import SubTitle from '@/shared/component/SubTitle'
+import PrimaryButton from '@/shared/component/PrimaryButton'
+import { distortionsAtom } from '@/shared/store/diaryStore'
 
 const distortions = [
   {
@@ -44,7 +47,7 @@ const distortions = [
 
 export default function DistortionPage() {
   const [example, setExample] = useState('아 연락이 안돼네, 헤어져야겠다')
-  const [selected, setSelected] = useState<number | null>(null)
+  const [selected, setSelected] = useAtom(distortionsAtom)
 
   return (
     <App>
@@ -68,9 +71,15 @@ export default function DistortionPage() {
               {distortions.map((d, idx) => (
                 <button
                   key={idx}
-                  onClick={() => setSelected(idx)}
-                  className={`flex items-start gap-3 w-full p-4 rounded-lg transition-transform box-border
-                    ${selected === idx ? 'bg-purple-600 text-white border-2 border-purple-500' : 'bg-gray-800 text-gray-100 border-2 border-transparent'}
+                  onClick={() => {
+                    if (selected.includes(idx)) {
+                      setSelected(selected.filter(id => id !== idx))
+                    } else {
+                      setSelected([...selected, idx])
+                    }
+                  }}
+                  className={`flex items-start gap-3 w-full p-4 rounded-lg transition-transform hover:scale-105 box-border
+                    ${selected.includes(idx) ? 'bg-purple-800 text-white border-2 border-purple-500' : 'bg-gray-800 text-gray-100 border-2 border-transparent'}
                   `}
                 >
                   <span className="text-2xl">{d.icon}</span>
@@ -84,12 +93,7 @@ export default function DistortionPage() {
           </div>
 
           {/* Next Button */}
-          <Link
-            href="/write/6"
-            className="block w-full py-3 mt-6 bg-purple-600 rounded-full text-center font-semibold"
-          >
-            다음
-          </Link>
+          <PrimaryButton href="/write/6">다음</PrimaryButton>
         </Column>
       </Container>
     </App>

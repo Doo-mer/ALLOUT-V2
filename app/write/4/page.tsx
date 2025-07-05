@@ -1,14 +1,15 @@
 'use client'
 
-import { useState } from 'react'
-import Link from 'next/link'
+import { useAtom } from 'jotai';
 import App from '@/shared/layout/App'
 import Container from '@/shared/layout/Container'
 import Header from '@/shared/component/Header'
 import Column from '@/shared/layout/Column'
+import PrimaryButton from '@/shared/component/PrimaryButton';
+import { contentAtom } from '@/shared/store/diaryStore';
 
 export default function DetailPage() {
-  const [text, setText] = useState('')
+  const [text, setText] = useAtom(contentAtom);
 
   return (
     <App>
@@ -17,7 +18,7 @@ export default function DetailPage() {
         <Header title='일기'/>
 
         <Column className="flex-1 justify-between p-4">
-        
+         
 
           {/* Prompt + Textarea */}
           <div className="space-y-2">
@@ -31,11 +32,7 @@ export default function DetailPage() {
           </div>
 
           {/* Next Button */}
-          <Link href="/write/5">
-            <div className="block w-full py-3 mt-6 bg-purple-600 rounded-full text-center font-semibold">
-              다음
-            </div>
-          </Link>
+          <PrimaryButton href="/write/5">다음</PrimaryButton>
         </Column>
       </Container>
     </App>

@@ -1,13 +1,14 @@
 "use client"
 
 import { useState } from 'react';
-import Link from 'next/link';
+import { useAtom } from 'jotai';
 import App from '@/shared/layout/App';
 import Container from '@/shared/layout/Container';
 import Header from '@/shared/component/Header';
 import Column from '@/shared/layout/Column';
 import SubTitle from '@/shared/component/SubTitle';
 import PrimaryButton from '@/shared/component/PrimaryButton';
+import { emotionsAtom } from '@/shared/store/diaryStore';
 
 const tabs = [
     { key: 'negative', label: '부정적' },
@@ -53,13 +54,11 @@ const emotions = {
 
 export default function DiaryPage() {
     const [activeTab, setActiveTab] = useState<'negative' | 'positive'>('negative');
-    const [selectedEmotions, setSelectedEmotions] = useState<string[]>([]);
+    const [selectedEmotions, setSelectedEmotions] = useAtom(emotionsAtom);
 
     return (
         <App>
             <Container>
-
-                {/* Content */}
                 <Column className="flex-1 justify-between h-full">
                     <Header title="일기" />
                     <div className="space-y-4 flex-1 flex flex-col min-h-0 p-4">
@@ -80,7 +79,7 @@ export default function DiaryPage() {
                         </div>
 
                         {/* Scrollable Grid of emotions */}
-                        <div className="h-[85%] overflow-y-auto">
+                        <div className="h-96 overflow-y-auto">
                             <div className="grid grid-cols-3 gap-4 pb-4">
                                 {emotions[activeTab].map((item, idx) => {
                                     const isSelected = selectedEmotions.includes(item.label);
@@ -107,8 +106,7 @@ export default function DiaryPage() {
                         </div>
                     </div>
 
-                    {/* Next Button */}
-                    <PrimaryButton href='/write/3'>다음</PrimaryButton>
+                    <PrimaryButton href="/write/3">다음</PrimaryButton>
                 </Column>
             </Container>
         </App>

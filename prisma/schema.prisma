@@ -1,0 +1,32 @@
+datasource db {
+  provider = "postgresql"
+  url      = "postgresql://neondb_owner:npg_NEhvtB8V7ykT@ep-patient-math-a1fvl3af-pooler.ap-southeast-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id    String @id @default(uuid())
+  name  String
+  email String @unique
+  // diaries Diary[] // 임시로 주석 처리
+}
+
+model Diary {
+  id                 String   @id @default(uuid())
+  mood               String?  // Write/1 - 기분
+  emotions           String[] // Write/2 - 감정 (JSON 배열)
+  activities         String[] // Write/3 - 활동 (JSON 배열)
+  content            String   // Write/4 - 상세 내용
+  distortions        Int[]    // Write/5 - 왜곡된 사고 (인덱스 배열)
+  alternativeThoughts String? // Write/6 - 대안적 사고
+  moodChange         String?  // Write/7 - 감정 변화
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+  
+  // 관계 (임시로 주석 처리)
+  // author   User   @relation(fields: [authorId], references: [id])
+  // authorId String
+}

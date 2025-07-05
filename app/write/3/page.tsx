@@ -1,12 +1,14 @@
 'use client'
 
 import { useState } from 'react';
+import { useAtom } from 'jotai';
 import App from '@/shared/layout/App'
 import Container from '@/shared/layout/Container'
 import Header from '@/shared/component/Header'
 import Column from '@/shared/layout/Column'
 import SubTitle from '@/shared/component/SubTitle'
 import PrimaryButton from '@/shared/component/PrimaryButton';
+import { activitiesAtom } from '@/shared/store/diaryStore';
 
 const activities = [
   { emoji: '🏠', label: '가족' },
@@ -27,7 +29,7 @@ const activities = [
 ]
 
 export default function ActivityPage() {
-  const [selectedActivities, setSelectedActivities] = useState<string[]>([]);
+  const [selectedActivities, setSelectedActivities] = useAtom(activitiesAtom);
 
   return (
     <App>
@@ -38,7 +40,7 @@ export default function ActivityPage() {
             <SubTitle>어떤 활동을 하셨나요?</SubTitle>
             
             {/* Scrollable Grid of activities */}
-            <div className="h-[90%] overflow-y-auto">
+            <div className="h-[85%] overflow-y-auto">
               <div className="grid grid-cols-3 gap-4 pb-4">
                 {activities.map((act, i) => {
                   const isSelected = selectedActivities.includes(act.label);

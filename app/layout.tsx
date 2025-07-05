@@ -1,5 +1,6 @@
 import localFont from 'next/font/local'
 import "./globals.css";
+import { Provider } from 'jotai';
 
 const pretendard = localFont({
   src: '../public/PretendardVariable.woff2',
@@ -21,12 +22,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
 
-
-
   return (
-    <html>
-      <body className={`${pretendard.variable} ${rix.variable} font-pretendard`} >  
-        {children}
+    <html lang="en">
+      <body className={`${pretendard.variable + ' ' + rix.variable} font-pretendard `}>
+        <Provider>
+          {children}
+        </Provider>
       </body>
     </html>
   );
