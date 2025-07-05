@@ -76,7 +76,7 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({ days, target }) => {
         {/* 카드 본문 */}
         <Column className="inset-0 p-4 rounded-[1rem] items-center justify-between">
           <MedalIcon size={48} />
-          <span className="text-white font-semibold mt-2">
+          <span className="text-white font-semibold mt-2 text-[0.75rem]">
             {days}일 연속
           </span>
         </Column>
@@ -93,10 +93,10 @@ export default function HomePage() {
                     {/* 상단 섹션 */}
                     <Column className="w-full justify-between gap-8 snap-start">
                         <Column className="w-full ml-6 mt-12">
-                            <div className="text-[1.75rem] text-white font-medium font-pretendard mb-[-0.25rem]">
-                                안녕하세요 미모마님
+                            <div className="text-[1.5rem] text-white font-medium font-pretendard mb-[-0.25rem]">
+                                안녕하세요
                             </div>
-                            <div className="text-[1.75rem] text-neutral-500 font-medium font-pretendard">
+                            <div className="text-[1.5rem] text-neutral-500 font-medium font-pretendard">
                                 오늘은 무슨 일이 있으셨나요?
                             </div>
                         </Column>
@@ -104,27 +104,27 @@ export default function HomePage() {
                         <Calendar />
 
                         <div className="mx-auto mb-8">
-                            <Link href={"write"}>
-                                <div className="flex justify-center items-center w-28 h-28 bg-purple-600 rounded-full text-white font-medium text-[1.25rem] hover:bg-purple-500 duration-200">시작</div>
-                            </Link>
+                          <Link className="flex justify-center items-center w-28 h-28 bg-purple-600 rounded-full text-white font-medium text-[1.25rem] hover:bg-purple-500 duration-200" href="/write/1">
+                            시작
+                          </Link>
                         </div>
                     </Column>
 
                     {/* 하단 섹션 */}
                     <Column className="bg-neutral-800 w-full h-screen snap-start flex items-center">
-                        <Row className="gap-5 p-6">
-                            <Link href={"/record"}>
+                        <Row className='w-[90%] justify-between gap-4 m-4'>
+                            <Link href={"/record"} className='w-full'>
                                 <div
-                                    className="bg-black text-white h-14 w-42 rounded-4xl flex items-center justify-center gap-2 hover:bg-neutral-900 duration-200"
+                                    className="bg-black text-white h-14 rounded-4xl flex items-center justify-center gap-2 hover:bg-neutral-900 duration-200"
                                 >
                                     <Image src="./book.svg" alt="고민 기록" width={32} height={32} />
                                     고민 기록
                                 </div>
                             </Link>
                             
-                            <Link href={"/document"}>
+                            <Link href={"/document"} className='w-full'>
                                 <div
-                                    className="bg-black text-white h-14 w-42 rounded-4xl flex items-center justify-center gap-2 hover:bg-neutral-900 duration-200"
+                                    className="bg-black text-white h-14 rounded-4xl flex items-center justify-center gap-2 hover:bg-neutral-900 duration-200"
                                 >
                                     <Image src="./document.svg" alt="분석 보고서" width={32} height={32} />
                                     분석 보고서

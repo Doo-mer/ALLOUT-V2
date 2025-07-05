@@ -1,9 +1,17 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
+
 export default function Header({ title }: { title: string }) {
+  const router = useRouter();
+
+  const handleBack = () => {
+    router.back();
+  };
+
   return (
     <header className="flex items-center justify-between bg-black p-2 text-white">
-      <button>
+      <button onClick={handleBack}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           className="h-6 w-6"
