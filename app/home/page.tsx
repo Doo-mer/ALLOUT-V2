@@ -74,9 +74,9 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({ days, target }) => {
         />
   
         {/* 카드 본문 */}
-        <Column className="inset-0 p-4 rounded-[1rem] items-center justify-between">
+        <Column className="inset-0 pt-4 rounded-[1rem] items-center justify-between">
           <MedalIcon size={48} />
-          <span className="text-white font-semibold mt-2 text-[0.75rem]">
+          <span className="text-white font-semibold mt-2">
             {days}일 연속
           </span>
         </Column>

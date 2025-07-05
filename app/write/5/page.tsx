@@ -69,7 +69,7 @@ export default function DistortionPage() {
                 <button
                   key={idx}
                   onClick={() => setSelected(idx)}
-                  className={`flex items-start gap-3 w-full p-4 rounded-lg transition-transform hover:scale-105 box-border
+                  className={`flex items-start gap-3 w-full p-4 rounded-lg transition-transform box-border
                     ${selected === idx ? 'bg-purple-600 text-white border-2 border-purple-500' : 'bg-gray-800 text-gray-100 border-2 border-transparent'}
                   `}
                 >
@@ -85,7 +85,7 @@ export default function DistortionPage() {
 
           {/* Next Button */}
           <Link
-            href="/next-step"
+            href="/write/6"
             className="block w-full py-3 mt-6 bg-purple-600 rounded-full text-center font-semibold"
           >
             다음
