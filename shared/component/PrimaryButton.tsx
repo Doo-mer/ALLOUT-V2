@@ -23,11 +23,11 @@ const PrimaryButton: React.FC<PrimaryButtonProps> = ({
   if (href && !onClick) {
     return (
       <div className="mx-[2rem] mb-[2rem]">
-        <a href={disabled ? undefined : href}>
-          <div className={baseClass}>
+        <Link href={href!} passHref>
+          <div className={baseClass} aria-disabled={disabled} tabIndex={disabled ? -1 : 0} style={disabled ? { pointerEvents: 'none', opacity: 0.6 } : {}}>
             {children}
           </div>
-        </a>
+        </Link>
       </div>
     );
   }

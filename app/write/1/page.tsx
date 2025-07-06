@@ -42,6 +42,7 @@ export default function DiaryPage() {
                                         onClick={() => {
                                             setSelectedEmotion(emotion.label);
                                             setMood(emotion.label);
+                                            console.log(emotion.label)
                                         }}
                                         className="transform text-5xl transition-transform hover:scale-110"
                                     >

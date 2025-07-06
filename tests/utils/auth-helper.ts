@@ -36,6 +36,10 @@ export class AuthHelper {
    * 로그아웃 (localStorage 클리어)
    */
   static async logout(page: Page) {
+    if (page.url() === 'about:blank') {
+      await page.goto('/');
+      await page.waitForLoadState('domcontentloaded');
+    }
     await page.evaluate(() => {
       localStorage.clear();
     });
@@ -45,6 +49,10 @@ export class AuthHelper {
    * 현재 로그인된 사용자 정보 가져오기
    */
   static async getCurrentUser(page: Page) {
+    if (page.url() === 'about:blank') {
+      await page.goto('/');
+      await page.waitForLoadState('domcontentloaded');
+    }
     return await page.evaluate(() => {
       const userStr = localStorage.getItem('user');
       return userStr ? JSON.parse(userStr) : null;

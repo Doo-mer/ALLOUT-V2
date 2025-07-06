@@ -95,6 +95,7 @@ export default function DiaryPage() {
                                                 } else {
                                                     setSelectedEmotions([...selectedEmotions, item.label]);
                                                 }
+                                                console.log(item.label)
                                             }}
                                             className={`flex flex-col items-center p-2 rounded-lg transform transition-transform box-border ${
                                                 isSelected ? 'bg-purple-800 border-2 border-purple-500' : 'bg-neutral-800 border-2 border-transparent'

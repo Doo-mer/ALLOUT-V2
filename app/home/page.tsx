@@ -178,7 +178,7 @@ const DiaryModal: React.FC<{ open: boolean; onClose: () => void; diaries: Diary[
                   </div>
                 )}
                 {diary.alternativeThoughts && (
-                  <div className="bg-neutral-800 rounded p-3 mt-2">
+                  <div className="bg-neutral-900 rounded p-3 mt-2">
                     <span className="inline-flex items-center gap-1 font-semibold text-green-200 mb-1">
                       💡 대안적 사고
                     </span>

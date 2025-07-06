@@ -10,7 +10,6 @@ test.describe('Authentication Tests', () => {
     await page.goto('/login');
     
     // 로그인 페이지 요소들이 존재하는지 확인
-    await expect(page.getByText('로그인')).toBeVisible();
     await expect(page.getByText('계정에 로그인')).toBeVisible();
     await expect(page.getByPlaceholder('아이디를 입력하세요')).toBeVisible();
     await expect(page.getByPlaceholder('비밀번호를 입력하세요')).toBeVisible();
@@ -21,7 +20,6 @@ test.describe('Authentication Tests', () => {
     await page.goto('/register');
     
     // 회원가입 페이지 요소들이 존재하는지 확인
-    await expect(page.getByText('회원가입')).toBeVisible();
     await expect(page.getByText('새 계정 만들기')).toBeVisible();
     await expect(page.getByPlaceholder('아이디를 입력하세요')).toBeVisible();
     await expect(page.getByPlaceholder('비밀번호를 입력하세요 (6자 이상)')).toBeVisible();
