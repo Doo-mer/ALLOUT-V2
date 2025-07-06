@@ -10,7 +10,7 @@ import SubTitle from '@/shared/component/SubTitle'
 import PrimaryButton from '@/shared/component/PrimaryButton';
 import { activitiesAtom } from '@/shared/store/diaryStore';
 
-const activities = [
+const activityList = [
   { emoji: '🏠', label: '가족' },
   { emoji: '🧑‍🤝‍🧑', label: '친구' },
   { emoji: '❤️', label: '사랑받는 느낌' },
@@ -40,9 +40,9 @@ export default function ActivityPage() {
             <SubTitle>어떤 활동을 하셨나요?</SubTitle>
             
             {/* Scrollable Grid of activities */}
-            <div className="h-[85%] overflow-y-auto">
+            <div className="h-full overflow-y-auto">
               <div className="grid grid-cols-3 gap-4 pb-4">
-                {activities.map((act, i) => {
+                {activityList.map((act, i) => {
                   const isSelected = selectedActivities.includes(act.label);
                   return (
                     <button
@@ -55,7 +55,7 @@ export default function ActivityPage() {
                         }
                       }}
                       className={`flex flex-col items-center p-2 rounded-lg transform transition-transform box-border ${
-                        isSelected ? 'bg-purple-800 border-2 border-purple-500' : 'bg-gray-800 border-2 border-transparent'
+                        isSelected ? 'bg-purple-800 border-2 border-purple-500' : 'bg-neutral-800 border-2 border-transparent'
                       }`}
                     >
                       <span className="text-4xl mb-2">{act.emoji}</span>
@@ -67,7 +67,7 @@ export default function ActivityPage() {
             </div>
           </div>
 
-          <PrimaryButton href='/write/4'>다음</PrimaryButton>
+          <PrimaryButton href='/write/4' disabled={selectedActivities.length === 0}>다음</PrimaryButton>
         </Column>
       </Container>
     </App>

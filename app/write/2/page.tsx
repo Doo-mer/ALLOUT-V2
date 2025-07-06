@@ -15,8 +15,10 @@ const tabs = [
     { key: 'positive', label: '긍정적' },
 ];
 
-const emotions = {
+const emotions: Record<'negative' | 'positive', { emoji: string; label: string }[]> = {
     negative: [
+        { emoji: '😭', label: '매우 슬픔' },
+        { emoji: '😥', label: '슬픔' },
         { emoji: '😠', label: '짜증난다' },
         { emoji: '😰', label: '불안하다' },
         { emoji: '🙁', label: '실망스럽다' },
@@ -34,8 +36,9 @@ const emotions = {
         { emoji: '🔒', label: '사용자화' },
     ],
     positive: [
+        { emoji: '😊', label: '좋음' },
+        { emoji: '😆', label: '매우 좋음' },
         { emoji: '😀', label: '행복하다' },
-        { emoji: '😊', label: '기쁘다' },
         { emoji: '😁', label: '즐겁다' },
         { emoji: '😃', label: '신난다' },
         { emoji: '🙂', label: '편안하다' },
@@ -65,12 +68,12 @@ export default function DiaryPage() {
                         <SubTitle>어떤 감정을 느끼고 계신가요?</SubTitle>
 
                         {/* Tabs */}
-                        <div className="flex border-b border-gray-600">
+                        <div className="flex border-b border-neutral-600">
                             {tabs.map(tab => (
                                 <button
                                     key={tab.key}
                                     onClick={() => setActiveTab(tab.key as 'negative' | 'positive')}
-                                    className={`flex-1 text-center ${activeTab === tab.key ? 'border-b-2 border-purple-500 text-purple-400' : 'text-gray-400'
+                                    className={`flex-1 text-center ${activeTab === tab.key ? 'border-b-2 border-purple-500 text-purple-400' : 'text-neutral-400'
                                         }`}
                                 >
                                     {tab.label}
@@ -79,9 +82,9 @@ export default function DiaryPage() {
                         </div>
 
                         {/* Scrollable Grid of emotions */}
-                        <div className="h-96 overflow-y-auto">
+                        <div className="h-full overflow-y-auto">
                             <div className="grid grid-cols-3 gap-4 pb-4">
-                                {emotions[activeTab].map((item, idx) => {
+                                {emotions[activeTab].map((item: { emoji: string; label: string }, idx: number) => {
                                     const isSelected = selectedEmotions.includes(item.label);
                                     return (
                                         <button
@@ -94,7 +97,7 @@ export default function DiaryPage() {
                                                 }
                                             }}
                                             className={`flex flex-col items-center p-2 rounded-lg transform transition-transform box-border ${
-                                                isSelected ? 'bg-purple-800 border-2 border-purple-500' : 'bg-gray-800 border-2 border-transparent'
+                                                isSelected ? 'bg-purple-800 border-2 border-purple-500' : 'bg-neutral-800 border-2 border-transparent'
                                             }`}
                                         >
                                             <span className="text-4xl mb-2">{item.emoji}</span>
@@ -106,7 +109,7 @@ export default function DiaryPage() {
                         </div>
                     </div>
 
-                    <PrimaryButton href="/write/3">다음</PrimaryButton>
+                    <PrimaryButton href="/write/3" disabled={selectedEmotions.length === 0}>다음</PrimaryButton>
                 </Column>
             </Container>
         </App>

@@ -41,13 +41,13 @@ export default function ReportPage() {
               {isLoading ? (
                 <div className="flex justify-center items-center h-44">
                   <div className="w-full flex flex-col gap-4 animate-pulse">
-                    <div className="h-6 w-1/3 bg-gray-700 rounded mx-auto" />
-                    <div className="h-32 w-full bg-gray-800 rounded" />
+                    <div className="h-6 w-1/3 bg-neutral-700 rounded mx-auto" />
+                    <div className="h-32 w-full bg-neutral-800 rounded" />
                   </div>
                 </div>
               ) : emotionData.length === 0 ? (
                 <div className="flex justify-center items-center h-44">
-                  <div className="text-gray-400">감정 데이터가 없습니다.</div>
+                  <div className="text-neutral-400">감정 데이터가 없습니다.</div>
                 </div>
               ) : (
                 <ResponsiveContainer width="100%" height={220}>
@@ -69,13 +69,13 @@ export default function ReportPage() {
               {isLoading ? (
                 <div className="flex justify-center items-center h-44">
                   <div className="w-full flex flex-col gap-4 animate-pulse">
-                    <div className="h-6 w-1/3 bg-gray-700 rounded mx-auto" />
-                    <div className="h-32 w-full bg-gray-800 rounded" />
+                    <div className="h-6 w-1/3 bg-neutral-700 rounded mx-auto" />
+                    <div className="h-32 w-full bg-neutral-800 rounded" />
                   </div>
                 </div>
               ) : activityData.length === 0 ? (
                 <div className="flex justify-center items-center h-44">
-                  <div className="text-gray-400">활동 데이터가 없습니다.</div>
+                  <div className="text-neutral-400">활동 데이터가 없습니다.</div>
                 </div>
               ) : (
                 <ResponsiveContainer width="100%" height={220}>

@@ -9,7 +9,7 @@ export default function Loading() {
   return (
     <App>
       <Container className="flex justify-center items-start">
-        <div className="w-full h-1 bg-gray-700 rounded-full overflow-hidden">
+        <div className="w-full h-1 bg-neutral-700 rounded-full overflow-hidden">
           <div className="h-full bg-purple-600 animate-[loadingBar_1.5s_infinite]"></div>
         </div>
 

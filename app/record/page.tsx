@@ -77,17 +77,17 @@ export default function GominListPage() {
             <div className="grid grid-cols-1 gap-4">
               {Array(5).fill(0).map((_, idx) => (
                 <div key={idx} className="bg-[#232326] rounded-xl p-3 shadow-md animate-pulse">
-                  <div className="h-3 w-16 bg-gray-700 rounded mb-2" />
+                  <div className="h-3 w-16 bg-neutral-700 rounded mb-2" />
                   <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 rounded-full bg-gray-700" />
-                    <div className="h-4 w-3/4 bg-gray-700 rounded" />
+                    <div className="w-2 h-2 rounded-full bg-neutral-700" />
+                    <div className="h-4 w-3/4 bg-neutral-700 rounded" />
                   </div>
                 </div>
               ))}
             </div>
           ) : filteredEntries.length === 0 ? (
             <div className="flex justify-center items-center h-32">
-              <div className="text-gray-400">{selectedMonth}에 작성된 일기가 없습니다.</div>
+              <div className="text-neutral-400">{selectedMonth}에 작성된 일기가 없습니다.</div>
             </div>
           ) : (
             <div className="grid grid-cols-1 gap-4">
@@ -97,7 +97,7 @@ export default function GominListPage() {
                 
                 return (
                   <div key={entry.id} className="bg-[#1e1e1e] rounded-xl p-3 shadow-md">
-                    <div className="text-xs text-gray-400 mb-1">{day}일 ({weekday})</div>
+                    <div className="text-xs text-neutral-400 mb-1">{day}일 ({weekday})</div>
                     <div className="flex items-center gap-2">
                       <div className="w-2 h-2 rounded-full bg-purple-500" />
                       <div className="text-sm font-semibold truncate w-full">{title}</div>

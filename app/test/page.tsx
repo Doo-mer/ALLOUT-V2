@@ -35,12 +35,12 @@ export default function Home() {
       </motion.button>
 
       {/* Snap Section 1 */}
-      <section className="h-screen snap-start flex items-center justify-center bg-gray-100">
+      <section className="h-screen snap-start flex items-center justify-center bg-neutral-100">
         <h1 className="text-3xl font-bold">Section 1</h1>
       </section>
 
       {/* Snap Section 2 */}
-      <section className="h-screen snap-start flex items-center justify-center bg-gray-200">
+      <section className="h-screen snap-start flex items-center justify-center bg-neutral-200">
         <h1 className="text-3xl font-bold">Section 2</h1>
       </section>
     </div>

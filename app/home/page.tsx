@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import App from '@/shared/layout/App';
 import Container from '@/shared/layout/Container';
 import Row from '@/shared/layout/Row';
@@ -11,6 +11,7 @@ import Link from 'next/link';
 import { useUserData, useUserSettings } from '@/shared/hooks/useUserData';
 import { useAtom } from 'jotai';
 import { userAtom } from '@/shared/store/userStore';
+import type { Diary } from '@/shared/store/userStore';
 
 const MedalIcon: React.FC<{ size?: number }> = ({ size = 64 }) => (
   <svg
@@ -80,9 +81,121 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({ days, target }) => {
       <Column className="inset-0 pt-4 rounded-[1rem] items-center justify-between">
         <MedalIcon size={48} />
         <span className="text-white font-semibold mt-2">
-          {target}일 연속
+          {target}번 작성
         </span>
       </Column>
+    </div>
+  );
+};
+
+// 왜곡 label 매핑
+const distortionLabels = [
+  '최악으로 인식하기',
+  '이분법적 사고',
+  '감정적 추론',
+  '부정적 확대 해석',
+  '긍정적인 상황 최소화하기',
+  '바로 결론으로 넘어가기',
+];
+
+const moodIcons: Record<string, string> = {
+  '매우 슬픔': '😭',
+  '슬픔': '😥',
+  '보통': '😐',
+  '좋음': '😊',
+  '매우 좋음': '😆',
+};
+
+const moodChangeIcons: Record<string, string> = {
+  '매우 나빠짐': '⬇️',
+  '나빠짐': '↘️',
+  '변화 없음': '➖',
+  '좋아짐': '↗️',
+  '매우 좋아짐': '⬆️',
+};
+
+const distortionIcons = [
+  '💣', // 최악으로 인식하기
+  '☯️', // 이분법적 사고
+  '🤔', // 감정적 추론
+  '⛔', // 부정적 확대 해석
+  '+',  // 긍정적인 상황 최소화하기
+  '🦕', // 바로 결론으로 넘어가기
+];
+
+// DiaryModal 컴포넌트 타입 명시
+const DiaryModal: React.FC<{ open: boolean; onClose: () => void; diaries: Diary[] }> = ({ open, onClose, diaries }) => {
+  if (!open || !diaries || diaries.length === 0) return null;
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80">
+      <div className="bg-neutral-900 shadow-xl w-[90vw] max-w-md max-h-[70vh] flex flex-col">
+        <div className="flex justify-between items-center p-4 border-b border-neutral-700">
+          <span className="font-bold text-lg text-purple-300">일기 상세 ({diaries.length}개)</span>
+          <button onClick={onClose} className="text-neutral-400 hover:text-purple-400 text-2xl">&times;</button>
+        </div>
+        <div className="p-4 overflow-y-auto text-white space-y-6" style={{ minHeight: 120 }}>
+          {diaries.map((diary, idx) => {
+            // 기존 상세 카드 UI 재활용
+            const distortionNames = (diary.distortions || []).map(idx => ({
+              label: distortionLabels[idx] || `왜곡 ${idx + 1}`,
+              icon: distortionIcons[idx] || '❓'
+            }));
+            return (
+              <div key={diary.id} className="bg-neutral-800 rounded p-3 mb-2">
+                <div className="text-xs text-neutral-400 mb-2">
+                  {new Date(diary.createdAt).toLocaleString('ko-KR', { dateStyle: 'medium', timeStyle: 'short' })}
+                </div>
+                <div className="flex flex-wrap gap-2 mb-2">
+                  <span className="inline-flex items-center gap-1 px-2 py-1 rounded bg-purple-800 text-purple-100 text-xs">
+                    {moodIcons[diary.mood || ''] || '🙂'} <b>기분</b> {diary.mood || '-'}
+                  </span>
+                  {diary.emotions?.map((e, i) => (
+                    <span key={i} className="inline-flex items-center gap-1 px-2 py-1 rounded bg-pink-800 text-pink-100 text-xs">
+                      😶 <b>감정</b> {e}
+                    </span>
+                  ))}
+                  {diary.activities?.map((a, i) => (
+                    <span key={i} className="inline-flex items-center gap-1 px-2 py-1 rounded bg-blue-800 text-blue-100 text-xs">
+                      🏷️ <b>활동</b> {a}
+                    </span>
+                  ))}
+                </div>
+                {distortionNames.length > 0 && (
+                  <div className="flex flex-wrap gap-2 mb-2">
+                    {distortionNames.map((d, i) => (
+                      <span key={i} className="inline-flex items-center gap-1 px-2 py-1 rounded bg-yellow-800 text-yellow-100 text-xs">
+                        {d.icon} <b>왜곡</b> {d.label}
+                      </span>
+                    ))}
+                  </div>
+                )}
+                {diary.moodChange && (
+                  <div className="flex flex-wrap gap-2 mb-2">
+                    <span className="inline-flex items-center gap-1 px-2 py-1 rounded bg-indigo-800 text-indigo-100 text-xs">
+                      {moodChangeIcons[diary.moodChange] || '🔄'} <b>감정 변화</b> {diary.moodChange}
+                    </span>
+                  </div>
+                )}
+                {diary.alternativeThoughts && (
+                  <div className="bg-neutral-800 rounded p-3 mt-2">
+                    <span className="inline-flex items-center gap-1 font-semibold text-green-200 mb-1">
+                      💡 대안적 사고
+                    </span>
+                    <div className="whitespace-pre-line break-words mt-1 text-sm">{diary.alternativeThoughts}</div>
+                  </div>
+                )}
+                <div className="bg-neutral-900 rounded p-3 mt-2">
+                  <span className="inline-flex items-center gap-1 font-semibold text-purple-300 mb-1">
+                    📖 일기 내용
+                  </span>
+                  <div className="whitespace-pre-line break-words mt-1 text-sm">{diary.content}</div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
     </div>
   );
 };
@@ -90,6 +203,8 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({ days, target }) => {
 export default function HomePage() {
   const [user, setUser] = useAtom(userAtom);
   const { userStats, userDiaries, loading, error } = useUserData();
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedDiaries, setSelectedDiaries] = useState<Diary[]>([]);
 
   // 컴포넌트 마운트 시 localStorage에서 사용자 정보 로드
   useEffect(() => {
@@ -152,6 +267,27 @@ export default function HomePage() {
     return days;
   };
 
+  // 캘린더 클릭 핸들러 (여러 개 일기 지원)
+  const handleDayClick = (idx: number) => {
+    if (!user) return;
+    const accountCreatedAt = new Date(user.createdAt);
+    accountCreatedAt.setHours(0, 0, 0, 0);
+    const targetDate = new Date(accountCreatedAt);
+    targetDate.setDate(accountCreatedAt.getDate() + idx);
+    targetDate.setHours(0, 0, 0, 0);
+
+    // 해당 날짜의 모든 일기 찾기
+    const diaries = userDiaries.filter(d => {
+      const diaryDate = new Date(d.createdAt);
+      diaryDate.setHours(0, 0, 0, 0);
+      return diaryDate.getTime() === targetDate.getTime();
+    });
+    if (diaries.length > 0) {
+      setSelectedDiaries(diaries.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()));
+      setModalOpen(true);
+    }
+  };
+
   // 에러 처리
   if (error) {
     console.error('Error loading user data:', error);
@@ -159,7 +295,7 @@ export default function HomePage() {
 
   return (
     <App>
-      <Container className="bg-black overflow-y-auto snap-y snap-mandatory h-screen">
+      <Container className="bg-black overflow-y-auto snap-y snap-mandatory h-screen relative">
         <Column className="w-full">
           {/* 상단 섹션 */}
           <Column className="w-full justify-between gap-8 snap-start">
@@ -172,7 +308,8 @@ export default function HomePage() {
               </div>
             </Column>
 
-            <Calendar days={generateCalendarDays()} />
+            <Calendar days={generateCalendarDays()} onDayClick={handleDayClick} />
+            <DiaryModal open={modalOpen} onClose={() => setModalOpen(false)} diaries={selectedDiaries} />
 
             <div className="mx-auto mb-8">
               <Link className="flex justify-center items-center w-28 h-28 bg-purple-600 rounded-full text-white font-medium text-[1.25rem] hover:bg-purple-500 duration-200" href="/write/1">
@@ -207,7 +344,7 @@ export default function HomePage() {
             <Column className="w-[90%] gap-4 bg-black py-[1rem] px-[1rem] rounded-[1rem] mb-[2rem]">
               <div className="flex justify-between text-xs text-neutral-400 mb-4">
                 <span className='text-[1rem]'>기록 습관 만들기</span>
-                <span className="text-[1rem] text-right">목표 일주일 &gt;</span>
+                <span className="text-[1rem] text-right">목표 7번 &gt;</span>
               </div>
               <div className="flex flex-col items-center justify-center py-4">
                 <div className="text-white text-[4rem] font-bold mb-[-1rem]">
@@ -217,7 +354,7 @@ export default function HomePage() {
                     userStats?.consecutiveDays || 0
                   )}
                 </div>
-                <div className="text-white text-[1rem] mt-1">일 연속</div>
+                <div className="text-white text-[1rem] mt-1">번 작성</div>
               </div>
               <div className="flex justify-center mt-2">
                 {[...Array(7)].map((_, i) => {

@@ -68,25 +68,25 @@ export default function LoginPage() {
             <SubTitle>계정에 로그인</SubTitle>
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">아이디</label>
+                <label className="block text-sm font-medium text-neutral-300 mb-2">아이디</label>
                 <input
                   type="text"
                   name="username"
                   value={formData.username}
                   onChange={handleInputChange}
                   placeholder="아이디를 입력하세요"
-                  className="w-full p-3 bg-gray-800 rounded-lg border border-gray-600 focus:outline-none focus:border-purple-500"
+                  className="w-full p-3 bg-neutral-800 rounded-lg border border-neutral-600 focus:outline-none focus:border-purple-500"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">비밀번호</label>
+                <label className="block text-sm font-medium text-neutral-300 mb-2">비밀번호</label>
                 <input
                   type="password"
                   name="password"
                   value={formData.password}
                   onChange={handleInputChange}
                   placeholder="비밀번호를 입력하세요"
-                  className="w-full p-3 bg-gray-800 rounded-lg border border-gray-600 focus:outline-none focus:border-purple-500"
+                  className="w-full p-3 bg-neutral-800 rounded-lg border border-neutral-600 focus:outline-none focus:border-purple-500"
                 />
               </div>
             </div>

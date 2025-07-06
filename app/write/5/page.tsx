@@ -49,21 +49,23 @@ export default function DistortionPage() {
   const [selected, setSelected] = useAtom(distortionsAtom)
   const [content] = useAtom(contentAtom)
 
+  console.log(content)
+  
   return (
     <App>
       <Container>
         {/* Header */}
         <Header title='일기'/>
 
-        <Column className="flex-1 justify-between p-4">
+        <Column className="flex-1 justify-between p-4  bg-black">
           {/* Prompt */}
-          <div className="space-y-4">
+          <div className="space-y-4 bg-black">
             <SubTitle>생각 속에 실제와 다르게 왜곡된 점이 포함되어 있나요?</SubTitle>
 
             {/* Example input box */}
-            <div className="w-full p-3 bg-gray-800 rounded-lg focus:outline-none">
+            {/* <div className="w-full p-3 bg-neutral-900 rounded-lg focus:outline-none">
               {content}
-            </div>
+            </div> */}
              
 
             {/* Scrollable list */}
@@ -79,13 +81,13 @@ export default function DistortionPage() {
                     }
                   }}
                   className={`flex items-start gap-3 w-full p-4 rounded-lg transition-transform box-border
-                    ${selected.includes(idx) ? 'bg-purple-800 text-white border-2 border-purple-500' : 'bg-gray-800 text-gray-100 border-2 border-transparent'}
+                    ${selected.includes(idx) ? 'bg-purple-800 text-white border-2 border-purple-500' : 'bg-neutral-900  text-neutral-100 border-2 border-transparent'}
                   `}
                 >
                   <span className="text-2xl">{d.icon}</span>
                   <div className="text-left">
                     <p className="font-medium">{d.title}</p>
-                    <p className="text-sm text-gray-400">{d.subtitle}</p>
+                    <p className="text-sm text-neutral-400">{d.subtitle}</p>
                   </div>
                 </button>
               ))}
@@ -93,7 +95,7 @@ export default function DistortionPage() {
           </div>
 
           {/* Next Button */}
-          <PrimaryButton href="/write/6">다음</PrimaryButton>
+          <PrimaryButton href="/write/6" disabled={selected.length === 0}>다음</PrimaryButton>
         </Column>
       </Container>
     </App>

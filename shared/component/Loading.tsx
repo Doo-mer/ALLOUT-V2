@@ -4,7 +4,7 @@ import React from 'react';
 const Loading: React.FC = () => (
   <div className="flex items-center justify-center h-full">
     {/* 간단한 바 형태 로더 */}
-    <div className="w-2/3 h-1 bg-gray-300 rounded-full overflow-hidden">
+    <div className="w-2/3 h-1 bg-neutral-300 rounded-full overflow-hidden">
       <div className="h-full bg-purple-600 animate-[loadingBar_1.5s_infinite]"></div>
     </div>
     <style jsx>{`

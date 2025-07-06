@@ -9,7 +9,7 @@ import PrimaryButton from '@/shared/component/PrimaryButton';
 import { contentAtom } from '@/shared/store/diaryStore';
 
 export default function DetailPage() {
-  const [text, setText] = useAtom(contentAtom);
+  const [content, setContent] = useAtom(contentAtom);
 
   return (
     <App>
@@ -24,15 +24,15 @@ export default function DetailPage() {
           <div className="space-y-2 mb-[1rem]">
             <p className="text-lg">고민에 대해 자세히 알려주세요</p>
             <textarea
-              value={text}
-              onChange={e => setText(e.target.value)}
-              placeholder="여기에 작성하세요..."
-              className="w-full h-40 p-3 bg-gray-900 rounded-lg resize-none focus:outline-none"
+              value={content}
+              onChange={e => setContent(e.target.value)}
+              className="w-full h-40 p-3 bg-neutral-900 rounded-lg text-white focus:outline-none"
+              placeholder="오늘의 생각이나 감정을 자유롭게 적어보세요."
             />
           </div>
 
           {/* Next Button */}
-          <PrimaryButton href="/write/5">다음</PrimaryButton>
+          <PrimaryButton href="/write/5" disabled={!content || content.trim() === ''}>다음</PrimaryButton>
         </Column>
       </Container>
     </App>

@@ -8,6 +8,8 @@ import Column from "@/shared/layout/Column";
 import Row from "@/shared/layout/Row";
 import PrimaryButton from "@/shared/component/PrimaryButton";
 import SubTitle from "@/shared/component/SubTitle"
+import { useAtom } from 'jotai';
+import { moodAtom } from '@/shared/store/diaryStore';
 
 const emotions = [
     { emoji: '😭', label: '매우 슬픔' },
@@ -19,6 +21,7 @@ const emotions = [
 
 export default function DiaryPage() {
     const [selectedEmotion, setSelectedEmotion] = useState<string | null>(null);
+    const [mood, setMood] = useAtom(moodAtom);
 
     return (
         <App>
@@ -36,7 +39,10 @@ export default function DiaryPage() {
                                     }`}
                                 >
                                     <button 
-                                        onClick={() => setSelectedEmotion(emotion.label)}
+                                        onClick={() => {
+                                            setSelectedEmotion(emotion.label);
+                                            setMood(emotion.label);
+                                        }}
                                         className="transform text-5xl transition-transform hover:scale-110"
                                     >
                                         {emotion.emoji}
@@ -46,7 +52,7 @@ export default function DiaryPage() {
                         </Row>
                     </Column>
                 </Column>
-                <PrimaryButton href="/write/2">다음</PrimaryButton>
+                <PrimaryButton href="/write/2" disabled={!mood}>다음</PrimaryButton>
             </Container>
         </App>
     );
