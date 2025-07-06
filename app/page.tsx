@@ -53,7 +53,7 @@ export default function Home() {
               href="/register"
             >
               <div className="flex justify-center items-center w-full h-[2.5rem] text-white rounded-4xl duration-200 text-[0.875rem]" >
-                이미 계정이 있다면
+                계정이 없다면? 회원가입
               </div>
             </Link>
           </div>

@@ -78,7 +78,7 @@ export default function DistortionPage() {
                       setSelected([...selected, idx])
                     }
                   }}
-                  className={`flex items-start gap-3 w-full p-4 rounded-lg transition-transform hover:scale-105 box-border
+                  className={`flex items-start gap-3 w-full p-4 rounded-lg transition-transform box-border
                     ${selected.includes(idx) ? 'bg-purple-800 text-white border-2 border-purple-500' : 'bg-gray-800 text-gray-100 border-2 border-transparent'}
                   `}
                 >

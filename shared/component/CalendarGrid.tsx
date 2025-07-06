@@ -27,7 +27,8 @@ const CalendarGrid: React.FC<CalendarGridProps> = ({
             break;
           case 'empty':
           default:
-            statusClasses = 'border-2 border-gray-800';
+            statusClasses = 'border-2 border-gray-800 bg-opacity-30';
+            content = <span className="text-xs font-normal text-gray-500">-</span>;
             break;
         }
 
