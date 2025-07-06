@@ -25,13 +25,26 @@ export default function MoodChangePage() {
 
     const handleComplete = async () => {
         try {
-            // DB에 데이터 저장
+            // 로그인된 사용자 정보 가져오기
+            const userStr = localStorage.getItem('user');
+            if (!userStr) {
+                alert('로그인이 필요합니다.');
+                router.push('/login');
+                return;
+            }
+
+            const user = JSON.parse(userStr);
+
+            // DB에 데이터 저장 (authorId 포함)
             const response = await fetch('/api/diary', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(diaryData),
+                body: JSON.stringify({
+                    ...diaryData,
+                    authorId: user.id, // 사용자 ID 추가
+                }),
             });
 
             if (response.ok) {

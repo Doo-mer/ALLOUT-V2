@@ -22,6 +22,7 @@ export async function POST(request: NextRequest) {
       distortions,
       alternativeThoughts,
       moodChange,
+      authorId,
     } = body;
 
     // 필수 필드 검증
@@ -32,7 +33,14 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // 일기 데이터 저장 (authorId 제거)
+    if (!authorId) {
+      return NextResponse.json(
+        { error: 'Author ID is required' },
+        { status: 400 }
+      );
+    }
+
+    // 일기 데이터 저장 (authorId 포함)
     const diary = await prisma.diary.create({
       data: {
         mood,
@@ -42,6 +50,7 @@ export async function POST(request: NextRequest) {
         distortions,
         alternativeThoughts,
         moodChange,
+        authorId,
       },
     });
 
@@ -56,18 +65,33 @@ export async function POST(request: NextRequest) {
   }
 }
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
-    const diaries = await prisma.diary.findMany({
-      include: {
-        author: true,
-      },
-      orderBy: {
-        createdAt: 'desc',
-      },
-    });
+    const { searchParams } = new URL(request.url);
+    const authorId = searchParams.get('authorId');
 
-    return NextResponse.json({ diaries });
+    if (authorId) {
+      // 특정 사용자의 일기만 조회
+      const diaries = await prisma.diary.findMany({
+        where: {
+          authorId: authorId,
+        },
+        orderBy: {
+          createdAt: 'desc',
+        },
+      });
+
+      return NextResponse.json({ diaries });
+    } else {
+      // 모든 일기 조회 (기존 동작)
+      const diaries = await prisma.diary.findMany({
+        orderBy: {
+          createdAt: 'desc',
+        },
+      });
+
+      return NextResponse.json({ diaries });
+    }
   } catch (error) {
     console.error('Error fetching diaries:', error);
     return NextResponse.json(
