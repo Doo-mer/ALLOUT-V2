@@ -1,52 +1,22 @@
 'use client'
 
 import Link from 'next/link'
-import { useState, useEffect } from 'react'
 import App from '@/shared/layout/App'
 import Container from '@/shared/layout/Container'
 import Column from '@/shared/layout/Column'
 import Header from '@/shared/component/Header'
-
-interface DiaryEntry {
-  id: string;
-  content: string;
-  createdAt: string;
-  mood?: string;
-}
+import { useUserData } from '@/shared/hooks/useUserData'
+import { useAtom } from 'jotai'
+import { userAtom } from '@/shared/store/userStore'
+import { useState } from 'react'
 
 const months = ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월']
 
 export default function GominListPage() {
   const [selectedMonth, setSelectedMonth] = useState('7월')
   const [monthSelectorOpen, setMonthSelectorOpen] = useState(false)
-  const [diaryEntries, setDiaryEntries] = useState<DiaryEntry[]>([])
-  const [loading, setLoading] = useState(true)
-
-  useEffect(() => {
-    const fetchDiaryEntries = async () => {
-      try {
-        const userStr = localStorage.getItem('user');
-        if (!userStr) {
-          setLoading(false);
-          return;
-        }
-
-        const user = JSON.parse(userStr);
-        const response = await fetch(`/api/diary?authorId=${user.id}`);
-        
-        if (response.ok) {
-          const data = await response.json();
-          setDiaryEntries(data.diaries || []);
-        }
-      } catch (error) {
-        console.error('Error fetching diary entries:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchDiaryEntries();
-  }, []);
+  const [user] = useAtom(userAtom)
+  const { userDiaries, loading } = useUserData()
 
   // 선택된 월에 해당하는 일기만 필터링
   const getCurrentMonthNumber = () => {
@@ -54,7 +24,7 @@ export default function GominListPage() {
     return monthIndex + 1; // 1부터 12까지
   };
 
-  const filteredEntries = diaryEntries.filter(entry => {
+  const filteredEntries = userDiaries.filter(entry => {
     const entryDate = new Date(entry.createdAt);
     return entryDate.getMonth() + 1 === getCurrentMonthNumber();
   });
@@ -104,8 +74,16 @@ export default function GominListPage() {
         {/* Scrollable Grid of Entries */}
         <div className="flex-1 overflow-y-auto px-4 py-4">
           {loading ? (
-            <div className="flex justify-center items-center h-32">
-              <div className="text-gray-400">로딩 중...</div>
+            <div className="grid grid-cols-1 gap-4">
+              {Array(5).fill(0).map((_, idx) => (
+                <div key={idx} className="bg-[#232326] rounded-xl p-3 shadow-md animate-pulse">
+                  <div className="h-3 w-16 bg-gray-700 rounded mb-2" />
+                  <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 rounded-full bg-gray-700" />
+                    <div className="h-4 w-3/4 bg-gray-700 rounded" />
+                  </div>
+                </div>
+              ))}
             </div>
           ) : filteredEntries.length === 0 ? (
             <div className="flex justify-center items-center h-32">

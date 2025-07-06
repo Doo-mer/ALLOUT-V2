@@ -9,7 +9,7 @@ import Header from '@/shared/component/Header'
 import Column from '@/shared/layout/Column'
 import SubTitle from '@/shared/component/SubTitle'
 import PrimaryButton from '@/shared/component/PrimaryButton'
-import { distortionsAtom } from '@/shared/store/diaryStore'
+import { distortionsAtom, contentAtom } from '@/shared/store/diaryStore'
 
 const distortions = [
   {
@@ -46,8 +46,8 @@ const distortions = [
 ]
 
 export default function DistortionPage() {
-  const [example, setExample] = useState('아 연락이 안돼네, 헤어져야겠다')
   const [selected, setSelected] = useAtom(distortionsAtom)
+  const [content] = useAtom(contentAtom)
 
   return (
     <App>
@@ -62,12 +62,12 @@ export default function DistortionPage() {
 
             {/* Example input box */}
             <div className="w-full p-3 bg-gray-800 rounded-lg focus:outline-none">
-              {example}
+              {content}
             </div>
              
 
             {/* Scrollable list */}
-            <div className="max-h-[26rem] overflow-y-auto space-y-2">
+            <div className="max-h-[26rem] overflow-y-auto space-y-2 mb-[1rem]">
               {distortions.map((d, idx) => (
                 <button
                   key={idx}

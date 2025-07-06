@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import App from '@/shared/layout/App';
 import Container from '@/shared/layout/Container';
 import Row from '@/shared/layout/Row';
@@ -8,6 +8,9 @@ import Column from '@/shared/layout/Column';
 import Calendar from '@/shared/component/CalendarGrid';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useUserData, useUserSettings } from '@/shared/hooks/useUserData';
+import { useAtom } from 'jotai';
+import { userAtom } from '@/shared/store/userStore';
 
 const MedalIcon: React.FC<{ size?: number }> = ({ size = 64 }) => (
   <svg
@@ -84,65 +87,23 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({ days, target }) => {
   );
 };
 
-interface UserStats {
-  consecutiveDays: number;
-  recentTwentyDaysCount: number;
-  totalDiaries: number;
-}
-
-interface Diary {
-  id: string;
-  createdAt: string;
-}
-
-interface User {
-  id: string;
-  username: string;
-  createdAt: string;
-}
-
 export default function HomePage() {
-  const [userStats, setUserStats] = useState<UserStats | null>(null);
-  const [userDiaries, setUserDiaries] = useState<Diary[]>([]);
-  const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [user, setUser] = useAtom(userAtom);
+  const { userStats, userDiaries, loading, error } = useUserData();
 
+  // 컴포넌트 마운트 시 localStorage에서 사용자 정보 로드
   useEffect(() => {
-    const fetchUserData = async () => {
+    const userStr = localStorage.getItem('user');
+    if (userStr && !user) {
       try {
-        const userStr = localStorage.getItem('user');
-        if (!userStr) {
-          setLoading(false);
-          return;
-        }
-
         const userData = JSON.parse(userStr);
         setUser(userData);
-        
-        // 사용자 통계와 일기 데이터를 병렬로 가져오기
-        const [statsResponse, diariesResponse] = await Promise.all([
-          fetch(`/api/users/stats?userId=${userData.id}`),
-          fetch(`/api/diary?authorId=${userData.id}`)
-        ]);
-        
-        if (statsResponse.ok) {
-          const stats = await statsResponse.json();
-          setUserStats(stats);
-        }
-
-        if (diariesResponse.ok) {
-          const diariesData = await diariesResponse.json();
-          setUserDiaries(diariesData.diaries || []);
-        }
       } catch (error) {
-        console.error('Error fetching user data:', error);
-      } finally {
-        setLoading(false);
+        console.error('Error parsing user data:', error);
+        localStorage.removeItem('user');
       }
-    };
-
-    fetchUserData();
-  }, []);
+    }
+  }, [user, setUser]);
 
   // 캘린더용 일기 작성 상태 배열 생성 (계정 생성일 기준)
   const generateCalendarDays = (): ('done' | 'today' | 'empty')[] => {
@@ -191,6 +152,11 @@ export default function HomePage() {
     return days;
   };
 
+  // 에러 처리
+  if (error) {
+    console.error('Error loading user data:', error);
+  }
+
   return (
     <App>
       <Container className="bg-black overflow-y-auto snap-y snap-mandatory h-screen">
@@ -222,7 +188,7 @@ export default function HomePage() {
                 <div
                   className="bg-black text-white h-14 rounded-4xl flex items-center justify-center gap-2 hover:bg-neutral-900 duration-200"
                 >
-                  <Image src="./book.svg" alt="고민 기록" width={32} height={32} />
+                  <Image src="./book.svg" alt="고민 기록" width={32} height={32} priority />
                   고민 기록
                 </div>
               </Link>
@@ -231,7 +197,7 @@ export default function HomePage() {
                 <div
                   className="bg-black text-white h-14 rounded-4xl flex items-center justify-center gap-2 hover:bg-neutral-900 duration-200"
                 >
-                  <Image src="./document.svg" alt="분석 보고서" width={32} height={32} />
+                  <Image src="./document.svg" alt="분석 보고서" width={32} height={32} priority />
                   분석 보고서
                 </div>
               </Link>
@@ -245,7 +211,11 @@ export default function HomePage() {
               </div>
               <div className="flex flex-col items-center justify-center py-4">
                 <div className="text-white text-[4rem] font-bold mb-[-1rem]">
-                  {loading ? '...' : (userStats?.consecutiveDays || 0)}
+                  {loading ? (
+                    <div className="animate-pulse bg-neutral-700 w-24 h-16 rounded"></div>
+                  ) : (
+                    userStats?.consecutiveDays || 0
+                  )}
                 </div>
                 <div className="text-white text-[1rem] mt-1">일 연속</div>
               </div>
@@ -274,9 +244,9 @@ export default function HomePage() {
               </Column>
 
               <Row className="justify-center gap-4 mt-4 w-full">
-                <ChallengeCard days={userStats?.consecutiveDays || 0} target={10} />
-                <ChallengeCard days={userStats?.recentTwentyDaysCount || 0} target={20} />
-                <ChallengeCard days={userStats?.totalDiaries || 0} target={35} />
+                <ChallengeCard days={loading ? 0 : (userStats?.consecutiveDays || 0)} target={10} />
+                <ChallengeCard days={loading ? 0 : (userStats?.recentTwentyDaysCount || 0)} target={20} />
+                <ChallengeCard days={loading ? 0 : (userStats?.totalDiaries || 0)} target={35} />
               </Row>
             </Column>
 

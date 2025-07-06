@@ -2,6 +2,7 @@
 
 import { useAtom } from 'jotai';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 import App from '@/shared/layout/App'
 import Container from '@/shared/layout/Container'
 import Header from '@/shared/component/Header'
@@ -22,8 +23,11 @@ export default function MoodChangePage() {
     const [diaryData] = useAtom(diaryDataAtom);
     const [, resetDiary] = useAtom(resetDiaryAtom);
     const router = useRouter();
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const handleComplete = async () => {
+        if (isSubmitting) return; // 중복 방지
+        setIsSubmitting(true);
         try {
             // 로그인된 사용자 정보 가져오기
             const userStr = localStorage.getItem('user');
@@ -58,17 +62,20 @@ export default function MoodChangePage() {
         } catch (error) {
             console.error('Error saving diary:', error);
             alert('저장 중 오류가 발생했습니다.');
+        } finally {
+            setIsSubmitting(false);
         }
     };
 
     return (
         <App>
             <Container>
+
+                <Column className="flex-1 justify-between p-4 h-full">
                 <Header title='일기'/>
 
-                <Column className="flex-1 justify-between p-4">
                     <div className="space-y-4">
-                        <SubTitle>지금 기분이 어떠신가요?</SubTitle>
+                        <SubTitle>일기를 적은 후 기분이 어떠신가요?</SubTitle>
                         
                         <div className="grid grid-cols-5 gap-4">
                             {moodChanges.map((mood, idx) => (
@@ -92,9 +99,10 @@ export default function MoodChangePage() {
                     {/* Complete Button */}
                     <button
                         onClick={handleComplete}
-                        className="w-full py-3 bg-purple-600 rounded-full text-center font-semibold hover:bg-purple-500 transition-colors"
+                        className="w-full py-3 bg-purple-600 rounded-full text-center font-semibold hover:bg-purple-500 transition-colors disabled:bg-neutral-600"
+                        disabled={isSubmitting}
                     >
-                        완료
+                        {isSubmitting ? '저장 중...' : '완료'}
                     </button>
                 </Column>
             </Container>

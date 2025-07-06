@@ -19,7 +19,7 @@ export default function AlternativeThoughtsPage() {
 
         <Column className="flex-1 justify-between p-4">
           {/* Prompt */}
-          <div className="space-y-4">
+          <div className="space-y-4  mb-[1rem]">
             <SubTitle>더 현실적이고 균형잡힌 생각은 무엇일까요?</SubTitle>
 
             {/* Textarea for alternative thoughts */}

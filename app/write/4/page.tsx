@@ -21,13 +21,13 @@ export default function DetailPage() {
          
 
           {/* Prompt + Textarea */}
-          <div className="space-y-2">
+          <div className="space-y-2 mb-[1rem]">
             <p className="text-lg">고민에 대해 자세히 알려주세요</p>
             <textarea
               value={text}
               onChange={e => setText(e.target.value)}
               placeholder="여기에 작성하세요..."
-              className="w-full h-40 p-3 bg-gray-800 rounded-lg resize-none focus:outline-none"
+              className="w-full h-40 p-3 bg-gray-900 rounded-lg resize-none focus:outline-none"
             />
           </div>
 

@@ -1,84 +1,33 @@
 "use client"
 
-import { useEffect, useState } from 'react'
 import App from '@/shared/layout/App'
 import Container from '@/shared/layout/Container'
 import Column from '@/shared/layout/Column'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
 import Header from '@/shared/component/Header'
+import { useAtom } from 'jotai'
+import { userAtom } from '@/shared/store/userStore'
+import useSWR from 'swr'
 
-interface Diary {
-  id: string;
-  emotions: string[];
-  activities: string[];
-  createdAt: string;
-}
-
-interface ChartData {
-  name: string;
-  value: number;
-}
+const fetcher = (url: string) => fetch(url).then(res => res.json());
 
 export default function ReportPage() {
-  const [emotionData, setEmotionData] = useState<ChartData[]>([]);
-  const [activityData, setActivityData] = useState<ChartData[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [user] = useAtom(userAtom);
+  const userId = user?.id;
 
-  useEffect(() => {
-    const fetchDiaryData = async () => {
-      try {
-        const userStr = localStorage.getItem('user');
-        if (!userStr) {
-          setLoading(false);
-          return;
-        }
+  const { data, isLoading } = useSWR(
+    userId ? `/api/users/summary?userId=${userId}` : null,
+    fetcher,
+    {
+      revalidateOnFocus: false,
+      revalidateOnReconnect: true,
+      refreshInterval: 0,
+      fallbackData: { emotionStats: [], activityStats: [] },
+    }
+  );
 
-        const user = JSON.parse(userStr);
-        const response = await fetch(`/api/diary?authorId=${user.id}`);
-        
-        if (response.ok) {
-          const data = await response.json();
-          const diaries: Diary[] = data.diaries || [];
-          
-          // 감정 데이터 분석
-          const emotionCounts: { [key: string]: number } = {};
-          diaries.forEach(diary => {
-            diary.emotions.forEach(emotion => {
-              emotionCounts[emotion] = (emotionCounts[emotion] || 0) + 1;
-            });
-          });
-          
-          const emotionChartData = Object.entries(emotionCounts)
-            .map(([name, value]) => ({ name, value }))
-            .sort((a, b) => b.value - a.value)
-            .slice(0, 5); // 상위 5개만 표시
-          
-          setEmotionData(emotionChartData);
-
-          // 활동 데이터 분석
-          const activityCounts: { [key: string]: number } = {};
-          diaries.forEach(diary => {
-            diary.activities.forEach(activity => {
-              activityCounts[activity] = (activityCounts[activity] || 0) + 1;
-            });
-          });
-          
-          const activityChartData = Object.entries(activityCounts)
-            .map(([name, value]) => ({ name, value }))
-            .sort((a, b) => b.value - a.value)
-            .slice(0, 5); // 상위 5개만 표시
-          
-          setActivityData(activityChartData);
-        }
-      } catch (error) {
-        console.error('Error fetching diary data:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchDiaryData();
-  }, []);
+  const emotionData = data?.emotionStats || [];
+  const activityData = data?.activityStats || [];
 
   return (
     <App>
@@ -89,9 +38,12 @@ export default function ReportPage() {
           <section>
             <h2 className="text-lg font-bold mb-3">감정 종류</h2>
             <div className="bg-[#1c1c1e] rounded-2xl p-4 shadow-md">
-              {loading ? (
+              {isLoading ? (
                 <div className="flex justify-center items-center h-44">
-                  <div className="text-gray-400">로딩 중...</div>
+                  <div className="w-full flex flex-col gap-4 animate-pulse">
+                    <div className="h-6 w-1/3 bg-gray-700 rounded mx-auto" />
+                    <div className="h-32 w-full bg-gray-800 rounded" />
+                  </div>
                 </div>
               ) : emotionData.length === 0 ? (
                 <div className="flex justify-center items-center h-44">
@@ -114,9 +66,12 @@ export default function ReportPage() {
           <section>
             <h2 className="text-lg font-bold mb-3">활동 종류</h2>
             <div className="bg-[#1c1c1e] rounded-2xl p-4 shadow-md">
-              {loading ? (
+              {isLoading ? (
                 <div className="flex justify-center items-center h-44">
-                  <div className="text-gray-400">로딩 중...</div>
+                  <div className="w-full flex flex-col gap-4 animate-pulse">
+                    <div className="h-6 w-1/3 bg-gray-700 rounded mx-auto" />
+                    <div className="h-32 w-full bg-gray-800 rounded" />
+                  </div>
                 </div>
               ) : activityData.length === 0 ? (
                 <div className="flex justify-center items-center h-44">

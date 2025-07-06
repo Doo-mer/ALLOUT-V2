@@ -70,6 +70,19 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);
     const authorId = searchParams.get('authorId');
 
+    const selectFields = {
+      id: true,
+      content: true,
+      mood: true,
+      emotions: true,
+      activities: true,
+      distortions: true,
+      alternativeThoughts: true,
+      moodChange: true,
+      createdAt: true,
+      authorId: true,
+    };
+
     if (authorId) {
       // 특정 사용자의 일기만 조회
       const diaries = await prisma.diary.findMany({
@@ -79,6 +92,7 @@ export async function GET(request: NextRequest) {
         orderBy: {
           createdAt: 'desc',
         },
+        select: selectFields,
       });
 
       return NextResponse.json({ diaries });
@@ -88,6 +102,7 @@ export async function GET(request: NextRequest) {
         orderBy: {
           createdAt: 'desc',
         },
+        select: selectFields,
       });
 
       return NextResponse.json({ diaries });
