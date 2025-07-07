@@ -295,7 +295,7 @@ export default function HomePage() {
 
   return (
     <App>
-      <Container className="bg-black overflow-y-auto snap-y snap-mandatory h-screen relative">
+      <Container className="bg-black overflow-y-auto overflow-x-hidden snap-y snap-mandatory h-screen relative">
         <Column className="w-full">
           {/* 상단 섹션 */}
           <Column className="w-full justify-between gap-8 snap-start">

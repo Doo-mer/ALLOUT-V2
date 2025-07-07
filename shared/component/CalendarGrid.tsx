@@ -13,9 +13,9 @@ const CalendarGrid: React.FC<CalendarGridProps> = ({
   onDayClick,
 }) => {
   return (
-    <div className="grid grid-cols-5 w-80 mx-auto">
+    <div className="grid grid-cols-5 mx-auto w-[90%]">
       {days.map((day, idx) => {
-        let baseClasses = 'w-16 h-16 rounded-full flex items-center justify-center transition cursor-pointer';
+        let baseClasses = 'w-full aspect-square rounded-full flex items-center justify-center transition cursor-pointer';
         let statusClasses = '';
         let content: React.ReactNode = null;
         let clickable = false;
