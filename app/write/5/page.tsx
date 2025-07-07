@@ -1,8 +1,6 @@
 'use client'
 
-import { useState } from 'react'
 import { useAtom } from 'jotai'
-import Link from 'next/link'
 import App from '@/shared/layout/App'
 import Container from '@/shared/layout/Container'
 import Header from '@/shared/component/Header'

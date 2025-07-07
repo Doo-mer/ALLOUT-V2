@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState } from 'react';
 import App from '@/shared/layout/App';
 import Container from '@/shared/layout/Container';
 import Row from '@/shared/layout/Row';
@@ -8,7 +8,7 @@ import Column from '@/shared/layout/Column';
 import Calendar from '@/shared/component/CalendarGrid';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useUserData, useUserSettings } from '@/shared/hooks/useUserData';
+import { useUserData } from '@/shared/hooks/useUserData';
 import { useAtom } from 'jotai';
 import { userAtom } from '@/shared/store/userStore';
 import type { Diary } from '@/shared/store/userStore';
@@ -135,7 +135,7 @@ const DiaryModal: React.FC<{ open: boolean; onClose: () => void; diaries: Diary[
           <button onClick={onClose} className="text-neutral-400 hover:text-purple-400 text-2xl">&times;</button>
         </div>
         <div className="p-4 overflow-y-auto text-white space-y-6" style={{ minHeight: 120 }}>
-          {diaries.map((diary, idx) => {
+          {diaries.map((diary) => {
             // 기존 상세 카드 UI 재활용
             const distortionNames = (diary.distortions || []).map(idx => ({
               label: distortionLabels[idx] || `왜곡 ${idx + 1}`,
@@ -358,7 +358,6 @@ export default function HomePage() {
               </div>
               <div className="flex justify-center mt-2">
                 {[...Array(7)].map((_, i) => {
-                  const hasDiaryToday = userStats && userStats.recentTwentyDaysCount > 0;
                   return (
                     <div
                       key={i}

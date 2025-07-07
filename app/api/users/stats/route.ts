@@ -67,7 +67,7 @@ export async function GET(request: NextRequest) {
 
       // 연속일수 계산
       let maxStreak = 0;
-      let currentDate = new Date(today);
+      const currentDate = new Date(today);
       currentDate.setHours(0, 0, 0, 0);
 
       // 오늘부터 역순으로 확인

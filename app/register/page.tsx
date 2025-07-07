@@ -7,7 +7,6 @@ import Container from '@/shared/layout/Container';
 import Header from '@/shared/component/Header';
 import Column from '@/shared/layout/Column';
 import SubTitle from '@/shared/component/SubTitle';
-import PrimaryButton from '@/shared/component/PrimaryButton';
 import Link from 'next/link';
 
 export default function RegisterPage() {
@@ -70,8 +69,8 @@ export default function RegisterPage() {
       } else {
         setMessage(data.error || '회원가입에 실패했습니다.');
       }
-    } catch (error) {
-      setMessage('서버 오류가 발생했습니다.');
+    } catch (_) {
+      setMessage(_+'서버 오류가 발생했습니다.');
     } finally {
       setIsLoading(false);
     }

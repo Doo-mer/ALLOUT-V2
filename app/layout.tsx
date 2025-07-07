@@ -4,7 +4,6 @@ import localFont from 'next/font/local'
 import "./globals.css";
 import { Provider } from 'jotai';
 import { DevTools } from 'jotai-devtools';
-import ClientLayout from './ClientLayout';
 import 'jotai-devtools/styles.css'
 import AtomsDevtools from './AtomsDevtools';
 

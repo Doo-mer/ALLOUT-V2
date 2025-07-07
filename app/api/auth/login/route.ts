@@ -28,9 +28,9 @@ export async function POST(request: NextRequest) {
     }
 
     // 비밀번호는 제외하고 반환
-    const { password: _, ...userInfo } = user;
+    const { ...userInfo } = user;
     return NextResponse.json({ success: true, user: userInfo });
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: '로그인 실패' }, { status: 500 });
   }
 } 

@@ -1,22 +1,17 @@
 'use client'
 
-import Link from 'next/link'
-import App from '@/shared/layout/App'
-import Container from '@/shared/layout/Container'
-import Column from '@/shared/layout/Column'
-import Header from '@/shared/component/Header'
-import { useUserData } from '@/shared/hooks/useUserData'
-import { useAtom } from 'jotai'
-import { userAtom } from '@/shared/store/userStore'
 import { useState } from 'react'
+import App from '@/shared/layout/App';
+import Container from '@/shared/layout/Container';
+import Header from '@/shared/component/Header';
+import { useUserData } from '@/shared/hooks/useUserData';
 
 const months = ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월']
 
 export default function GominListPage() {
   const [selectedMonth, setSelectedMonth] = useState('7월')
   const [monthSelectorOpen, setMonthSelectorOpen] = useState(false)
-  const [user] = useAtom(userAtom)
-  const { userDiaries, loading } = useUserData()
+  const { userDiaries, loading } = useUserData();
 
   // 선택된 월에 해당하는 일기만 필터링
   const getCurrentMonthNumber = () => {
