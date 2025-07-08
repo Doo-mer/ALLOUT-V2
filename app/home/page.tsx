@@ -66,7 +66,7 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({ days, target }) => {
   const degree = progress * 360;
 
   return (
-    <div className="relative w-32 h-28 rounded-2xl">
+    <div className="relative w-full h-full rounded-2xl">
       {/* 동적 테두리: 달성률에 따라 conic-gradient로 표시 */}
       <div
         className="inset-0 rounded-2xl"
@@ -79,8 +79,8 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({ days, target }) => {
 
       {/* 카드 본문 */}
       <Column className="inset-0 pt-4 rounded-[1rem] items-center justify-between">
-        <MedalIcon size={48} />
-        <span className="text-white font-semibold mt-2 max-phone:text-[0.75rem]">
+        <MedalIcon size={72} />
+        <span className="text-white font-semibold mt-2 text-[1rem]  max-tablet:text-[1rem] max-phone:text-[0.75rem]">
           {target}번 작성
         </span>
       </Column>
@@ -373,13 +373,13 @@ export default function HomePage() {
               </div>
             </Column>
 
-            <Column className="w-[90%] items-center gap-4 bg-black py-[1rem] px-[1rem] rounded-[1rem] ">
+            <Column className="w-[90%] items-center gap-4 bg-black py-[1rem] px-[1rem] rounded-[1rem] h-full mb-[1rem]">
               <Column className='text-center'>
                 <h2 className="text-xl font-bold text-white">새로운 도전</h2>
                 <p className="text-neutral-400">하루 한번 일기 습관을 만들어 보세요</p>
               </Column>
 
-              <Row className="justify-center gap-4 mt-4 w-full">
+              <Row className="justify-center gap-4 mt-4 w-full h-full">
                 <ChallengeCard days={loading ? 0 : (userStats?.consecutiveDays || 0)} target={10} />
                 <ChallengeCard days={loading ? 0 : (userStats?.recentTwentyDaysCount || 0)} target={20} />
                 <ChallengeCard days={loading ? 0 : (userStats?.totalDiaries || 0)} target={35} />
