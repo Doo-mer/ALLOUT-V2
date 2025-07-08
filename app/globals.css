@@ -5,6 +5,12 @@
   --font-rix: var(--font-CSSrix)
 }
 
+@theme {
+  --breakpoint-*: initial;
+  --breakpoint-tablet: 450px;
+  --breakpoint-phone: 350px;
+}
+
 html, body {
   width: 100%;
   height: 100%;

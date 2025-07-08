@@ -10,6 +10,7 @@ import Column from '@/shared/layout/Column'
 import SubTitle from '@/shared/component/SubTitle'
 import { moodChangeAtom, diaryDataAtom, resetDiaryAtom } from '@/shared/store/diaryStore';
 import PrimaryButton from '@/shared/component/PrimaryButton'
+import Row from '@/shared/layout/Row';
 
 const moodChanges = [
   { emoji: '😭', label: '매우 나빠짐' },
@@ -70,39 +71,31 @@ export default function MoodChangePage() {
 
   return (
     <App>
-      <Container>
-        <Header title='일기' />
-        <Column className="flex-1 justify-between p-4 h-[95%]">
-          <div></div>
-          <div className="space-y-4">
-            <SubTitle>일기를 적은 후 기분이 어떠신가요?</SubTitle>
-
-            <div className="grid grid-cols-5 gap-4">
-              {moodChanges.map((mood, idx) => (
-                <div
-                  key={idx}
-                  className={`w-16 h-16 flex items-center justify-center rounded-lg box-border ${selectedMoodChange === mood.label ? 'border-2 border-purple-500 bg-purple-600' : 'border-2 border-transparent'
-                    }`}
-                >
-                  <button
-                    onClick={() => setSelectedMoodChange(mood.label)}
-                    className="transform text-5xl transition-transform hover:scale-110"
+      <Container  className="flex flex-col justify-between">
+          <Header title='일기' />
+          <Column>
+            <Column className="gap-[2rem] p-4">
+              <SubTitle>일기를 적은 후 기분이 어떠신가요?</SubTitle>
+              <Row className="flex space-x-2 mx-auto ">
+                {moodChanges.map((mood, idx) => (
+                  <div
+                    key={idx}
+                    className={`w-16 h-16 flex items-center justify-center rounded-lg box-border ${selectedMoodChange === mood.label ? 'border-2 border-purple-500 bg-purple-600' : 'border-2 border-transparent'}`}
                   >
-                    {mood.emoji}
-                  </button>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Complete Button */}
-          <div>
-            <PrimaryButton onClick={handleComplete} disabled={isSubmitting || !selectedMoodChange}>
-              {isSubmitting ? '저장 중...' : '완료'}
-            </PrimaryButton>
-          </div>
-
-        </Column>
+                    <button
+                      onClick={() => setSelectedMoodChange(mood.label)}
+                      className="transform text-5xl transition-transform hover:scale-110"
+                    >
+                      {mood.emoji}
+                    </button>
+                  </div>
+                ))}
+              </Row>
+            </Column>
+          </Column>
+        <PrimaryButton onClick={handleComplete} disabled={isSubmitting || !selectedMoodChange}>
+          {isSubmitting ? '저장 중...' : '완료'}
+        </PrimaryButton>
       </Container>
     </App>
   );

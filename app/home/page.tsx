@@ -66,7 +66,7 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({ days, target }) => {
   const degree = progress * 360;
 
   return (
-    <div className="relative w-32 h-36 rounded-2xl">
+    <div className="relative w-32 h-28 rounded-2xl">
       {/* 동적 테두리: 달성률에 따라 conic-gradient로 표시 */}
       <div
         className="inset-0 rounded-2xl"
@@ -300,10 +300,10 @@ export default function HomePage() {
           {/* 상단 섹션 */}
           <Column className="w-full justify-between gap-8 snap-start">
             <Column className="w-full ml-6 mt-12">
-              <div className="text-[1.5rem] text-white font-medium font-pretendard mb-[-0.25rem]">
+              <div className="text-[1.25rem] phone:text-[1.5rem] text-white font-medium font-pretendard mb-[-0.25rem]">
                 안녕하세요
               </div>
-              <div className="text-[1.5rem] text-neutral-500 font-medium font-pretendard">
+              <div className="text-[1.25rem] phone:text-[1.5rem] text-neutral-500 font-medium font-pretendard">
                 오늘은 무슨 일이 있으셨나요?
               </div>
             </Column>

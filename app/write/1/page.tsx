@@ -28,9 +28,9 @@ export default function DiaryPage() {
             <Container className="flex flex-col justify-between">
                 <Header title="일기" />
                 <Column>
-                    <Column className="mx-auto gap-[2rem]">
+                    <Column className="gap-[2rem] p-4">
                         <SubTitle>기분이 어떠신가요?</SubTitle>
-                        <Row className="flex space-x-2">
+                        <Row className="flex space-x-2 mx-auto">
                             {emotions.map((emotion, idx) => (
                                 <div 
                                     key={idx}

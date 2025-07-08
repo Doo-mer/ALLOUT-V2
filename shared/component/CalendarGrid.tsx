@@ -26,18 +26,18 @@ const CalendarGrid: React.FC<CalendarGridProps> = ({
             clickable = true;
             content = (
               <span className="flex flex-col items-center">
-                <span className="text-xs mt-1">확인</span>
+                <span className="text-[0.75rem] phone:text-[0.875rem] tablet:text-[1rem] mt-1">확인</span>
               </span>
             );
             break;
           case 'today':
             statusClasses = 'border-2 border-white text-white';
-            content = <span className="text-sm font-normal">TODAY</span>;
+            content = <span className="text-[0.75rem] phone:text-[0.875rem] tablet:text-[1rem] font-normal">TODAY</span>;
             break;
           case 'empty':
           default:
             statusClasses = 'border-2 border-neutral-800 bg-opacity-30 cursor-default';
-            content = <span className="text-xs font-normal text-neutral-500">-</span>;
+            content = <span className="text-[0.75rem] phone:text-[0.875rem] tablet:text-[1rem] font-normal text-neutral-500">-</span>;
             break;
         }
 
