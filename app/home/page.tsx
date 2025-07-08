@@ -300,10 +300,10 @@ export default function HomePage() {
           {/* 상단 섹션 */}
           <Column className="w-full justify-between gap-8 snap-start">
             <Column className="w-full ml-6 mt-12">
-              <div className="text-[1.25rem] max-phone:text-[1.5rem] text-white font-medium font-pretendard mb-[-0.25rem]">
+              <div className="text-[1.5rem] max-phone:text-[1.25rem] text-white font-medium font-pretendard mb-[-0.25rem]">
                 안녕하세요
               </div>
-              <div className="text-[1.25rem] max-phone:text-[1.5rem] text-neutral-500 font-medium font-pretendard">
+              <div className="text-[1.5rem] max-phone:text-[1.25rem] text-neutral-500 font-medium font-pretendard">
                 오늘은 무슨 일이 있으셨나요?
               </div>
             </Column>
