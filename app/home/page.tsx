@@ -80,7 +80,7 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({ days, target }) => {
       {/* 카드 본문 */}
       <Column className="inset-0 pt-4 rounded-[1rem] items-center justify-between">
         <MedalIcon size={48} />
-        <span className="text-white font-semibold mt-2">
+        <span className="text-white font-semibold mt-2 max-phone:text-[0.75rem]">
           {target}번 작성
         </span>
       </Column>
@@ -129,7 +129,7 @@ const DiaryModal: React.FC<{ open: boolean; onClose: () => void; diaries: Diary[
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80">
-      <div className="bg-neutral-900 shadow-xl w-[90vw] max-w-md max-h-[70vh] flex flex-col">
+      <div className="bg-neutral-900 shadow-xl w-[100vw] max-w-md h-[100vh] flex flex-col">
         <div className="flex justify-between items-center p-4 border-b border-neutral-700">
           <span className="font-bold text-lg text-purple-300">일기 상세 ({diaries.length}개)</span>
           <button onClick={onClose} className="text-neutral-400 hover:text-purple-400 text-2xl">&times;</button>
@@ -177,6 +177,12 @@ const DiaryModal: React.FC<{ open: boolean; onClose: () => void; diaries: Diary[
                     </span>
                   </div>
                 )}
+                <div className="bg-neutral-900 rounded p-3 mt-2">
+                  <span className="inline-flex items-center gap-1 font-semibold text-purple-300 mb-1">
+                    📖 일기 내용
+                  </span>
+                  <div className="whitespace-pre-line break-words mt-1 text-sm">{diary.content}</div>
+                </div>
                 {diary.alternativeThoughts && (
                   <div className="bg-neutral-900 rounded p-3 mt-2">
                     <span className="inline-flex items-center gap-1 font-semibold text-green-200 mb-1">
@@ -185,12 +191,6 @@ const DiaryModal: React.FC<{ open: boolean; onClose: () => void; diaries: Diary[
                     <div className="whitespace-pre-line break-words mt-1 text-sm">{diary.alternativeThoughts}</div>
                   </div>
                 )}
-                <div className="bg-neutral-900 rounded p-3 mt-2">
-                  <span className="inline-flex items-center gap-1 font-semibold text-purple-300 mb-1">
-                    📖 일기 내용
-                  </span>
-                  <div className="whitespace-pre-line break-words mt-1 text-sm">{diary.content}</div>
-                </div>
               </div>
             );
           })}
@@ -300,10 +300,10 @@ export default function HomePage() {
           {/* 상단 섹션 */}
           <Column className="w-full justify-between gap-8 snap-start">
             <Column className="w-full ml-6 mt-12">
-              <div className="text-[1.25rem] phone:text-[1.5rem] text-white font-medium font-pretendard mb-[-0.25rem]">
+              <div className="text-[1.25rem] max-phone:text-[1.5rem] text-white font-medium font-pretendard mb-[-0.25rem]">
                 안녕하세요
               </div>
-              <div className="text-[1.25rem] phone:text-[1.5rem] text-neutral-500 font-medium font-pretendard">
+              <div className="text-[1.25rem] max-phone:text-[1.5rem] text-neutral-500 font-medium font-pretendard">
                 오늘은 무슨 일이 있으셨나요?
               </div>
             </Column>
@@ -323,18 +323,18 @@ export default function HomePage() {
             <Row className='w-[90%] justify-between gap-4 m-4'>
               <Link href={"/record"} className='w-full'>
                 <div
-                  className="bg-black text-white h-14 rounded-4xl flex items-center justify-center gap-2 hover:bg-neutral-900 duration-200"
+                  className="bg-black text-white h-14 max-phone:h-12 rounded-4xl flex items-center justify-center gap-2 max-phone:gap-1 hover:bg-neutral-900 duration-200 max-phone:text-sm"
                 >
-                  <Image src="./book.svg" alt="고민 기록" width={32} height={32} priority />
+                  <Image src="./book.svg" alt="고민 기록" width={32} height={32} priority className="max-phone:w-6 max-phone:h-6" />
                   고민 기록
                 </div>
               </Link>
 
               <Link href={"/document"} className='w-full'>
                 <div
-                  className="bg-black text-white h-14 rounded-4xl flex items-center justify-center gap-2 hover:bg-neutral-900 duration-200"
+                  className="bg-black text-white h-14 max-phone:h-12 rounded-4xl flex items-center justify-center gap-2 max-phone:gap-1 hover:bg-neutral-900 duration-200 max-phone:text-sm"
                 >
-                  <Image src="./document.svg" alt="분석 보고서" width={32} height={32} priority />
+                  <Image src="./document.svg" alt="분석 보고서" width={32} height={32} priority className="max-phone:w-6 max-phone:h-6" />
                   분석 보고서
                 </div>
               </Link>
@@ -343,8 +343,8 @@ export default function HomePage() {
 
             <Column className="w-[90%] gap-4 bg-black py-[1rem] px-[1rem] rounded-[1rem] mb-[2rem]">
               <div className="flex justify-between text-xs text-neutral-400 mb-4">
-                <span className='text-[1rem]'>기록 습관 만들기</span>
-                <span className="text-[1rem] text-right">목표 7번 &gt;</span>
+                <span className='text-[1rem] max-phone:text-[0.875rem]'>기록 습관 만들기</span>
+                <span className="text-[1rem] max-phone:text-[0.875rem] text-right">목표 7번 &gt;</span>
               </div>
               <div className="flex flex-col items-center justify-center py-4">
                 <div className="text-white text-[4rem] font-bold mb-[-1rem]">
@@ -361,7 +361,7 @@ export default function HomePage() {
                   return (
                     <div
                       key={i}
-                      className={`w-12 h-12 rounded-full ${i < (userStats?.consecutiveDays || 0)
+                      className={`w-12 aspect-square rounded-full ${i < (userStats?.consecutiveDays || 0)
                           ? 'bg-purple-600'
                           : i === (userStats?.consecutiveDays || 0)
                             ? 'border-2 border-white'
